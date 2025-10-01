@@ -1,0 +1,7 @@
+package pencil_utensil.lobby_boy.exception.user;
+
+public class UnavailableNameException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
+}

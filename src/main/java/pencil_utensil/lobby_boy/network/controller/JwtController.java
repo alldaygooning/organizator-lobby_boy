@@ -1,0 +1,36 @@
+package pencil_utensil.lobby_boy.network.controller;
+
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import pencil_utensil.lobby_boy.credentials.JwtService;
+
+@RestController
+@RequestMapping("/api/jwt")
+public class JwtController {
+
+	private final JwtService jwtService;
+
+	JwtController(JwtService jwtService) {
+		this.jwtService = jwtService;
+	}
+
+	@PostMapping("/validate")
+	public ResponseEntity<?> validate(@Valid @RequestBody JWTRequest request) {
+		return ResponseEntity.ok(Map.of("valid", jwtService.validate(request.token)));
+	}
+
+	public static class JWTRequest {
+		@NotBlank(message = "jwt.notblank")
+		@Size(min = 5, max = 1000, message = "jwt.size")
+		public String token;
+	}
+}
