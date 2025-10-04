@@ -1,5 +1,6 @@
 package pencil_utensil.lobby_boy.network.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,15 @@ public class JwtController {
 
 	@PostMapping("/validate")
 	public ResponseEntity<?> validate(@Valid @RequestBody JWTRequest request) {
-		return ResponseEntity.ok(Map.of("valid", jwtService.validate(request.token)));
+		String token = request.token;
+		boolean valid = jwtService.validate(token);
+		Map<String, Object> body = new HashMap<>();
+		body.put("valid", valid);
+		if (valid) {
+			body.put("name", jwtService.getUserName(token));
+			body.put("id", jwtService.getUserId(token));
+		}
+		return ResponseEntity.ok(body);
 	}
 
 	public static class JWTRequest {

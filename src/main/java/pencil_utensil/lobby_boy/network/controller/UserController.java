@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,12 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("field.credentials", "credentials.invalid"));
 		}
 		LOGGER.info("{} logged in.", user.getName());
-		return ResponseEntity.ok(Map.of("token", jwtService.issue(user.getId(), user.getName())));
+		return ResponseEntity
+				.ok()
+				.header(HttpHeaders.SET_COOKIE, jwtService.issueJwtCookie(
+						user.getId(),
+						user.getName()).toString())
+				.build();
 	}
 
 	public static class Credentials {
@@ -66,5 +72,3 @@ public class UserController {
 		public String password;
 	}
 }
-//	@PostMapping("/{id}") //fetch user by id
-//	@PostMapping("/{name}") //fetch user by name
