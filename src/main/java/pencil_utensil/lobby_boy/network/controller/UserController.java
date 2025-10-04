@@ -71,4 +71,12 @@ public class UserController {
 		@NotBlank(message = "credentials.password.notblank")
 		public String password;
 	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<?> logout() {
+		return ResponseEntity
+				.ok()
+				.header(HttpHeaders.SET_COOKIE, jwtService.issueEmptyJwtCookie().toString())
+				.build();
+	}
 }

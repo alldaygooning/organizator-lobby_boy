@@ -61,6 +61,16 @@ public class JwtService {
 		return createJwtCookie(token);
 	}
 
+	public ResponseCookie issueEmptyJwtCookie() {
+		return ResponseCookie.from(JWT_COOKIE_NAME, "")
+				.httpOnly(true)
+				.secure(true)
+				.path("/")
+				.maxAge(JWT_COOKIE_MAX_AGE)
+				.sameSite("Strict")
+				.build();
+	}
+
 	public boolean validate(String token) {
 		return getUserId(token).isPresent();
 	}
