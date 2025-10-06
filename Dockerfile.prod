@@ -1,0 +1,9 @@
+FROM eclipse-temurin:17-jdk-jammy
+
+WORKDIR /lobby_boy
+
+COPY build/libs/lobby_boy-*.jar lobby_boy.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "lobby_boy.jar"]
