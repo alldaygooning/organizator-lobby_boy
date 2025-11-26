@@ -61,7 +61,9 @@ public class UserController {
 				.header(HttpHeaders.SET_COOKIE, jwtService.issueJwtCookie(
 						user.getId(),
 						user.getName()).toString())
-				.body(Map.of("id", user.getId()));
+				.body(Map.of(
+						"id", user.getId(),
+						"role", user.getRole()));
 	}
 
 	public static class Credentials {
