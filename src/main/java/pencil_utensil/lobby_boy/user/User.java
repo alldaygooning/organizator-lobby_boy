@@ -35,6 +35,7 @@ public class User {
 		this.name = name;
 		this.hash = hash;
 		this.salt = salt;
+		this.role = UserRole.USER;
 	}
 
 	public static User getDefaultUser() { return new User("", "", ""); }

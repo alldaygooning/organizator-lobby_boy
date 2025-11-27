@@ -8,6 +8,7 @@ import pencil_utensil.lobby_boy.credentials.PasswordCredentials;
 import pencil_utensil.lobby_boy.credentials.PasswordService;
 import pencil_utensil.lobby_boy.exception.user.InvalidCredentialsException;
 import pencil_utensil.lobby_boy.exception.user.UnavailableNameException;
+import pencil_utensil.lobby_boy.exception.user.UserNotFoundException;
 
 @Service
 public class UserService {
@@ -40,6 +41,12 @@ public class UserService {
 			throw new InvalidCredentialsException();
 		}
 		return user;
+	}
+
+	@Transactional(readOnly = true)
+	public UserRole getRole(Integer id) {
+		User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+		return user.getRole();
 	}
 
 
